@@ -25,14 +25,14 @@ class Utama():
             self.isiDirektory()
         elif pilih == "2":
             nf = input("Nama file yang akan didownload: ")
-            self.downloadFile(nf)
+            self.downloadFiles(nf)
         elif pilih == "3":
             nf = input("Nama file yang akan di upload: ")
             self.uploadFile(nf)
         else:
             self.ftp.quit()    
             
-    def iseDirektory(self):
+    def isiDirektory(self):
         self.ftp.dir(self.daftarfiles.append)
         for df in self.daftarfiles:
             print(df)
@@ -41,17 +41,20 @@ class Utama():
         self.tampilMenu()
         
     def downloadFiles(self, nf):
-        with open(nf, "w") as local_file:
-            resp = self.ftp.retrlines("RETR",+nf, local_file.write)
-            if resp.startwith("226"):
+        
+        with open(nf, "w", encoding="utf-8") as local_file:
+            
+            resp = self.ftp.retrlines("RETR "+nf, local_file.write)
+            input("stop")
+            if resp.startswith("226"):
                 print("Download selesai")
             else:
                 print("Download error")
         self.tampilMenu()
         
     def uploadFiles(self, nf):
-        with open(nf, "rd") as local_file
-            self.ftp.storlines("STOR"+nf, local_file)
+        with open(nf, "rd") as local_file:
+            self.ftp.storlines("STOR "+nf, local_file)
         self.tampilMenu()
         
 if __name__ == "__main__":
